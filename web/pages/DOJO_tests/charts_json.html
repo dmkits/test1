@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link href="/jslib/dojo-release-1.11.2/dijit/themes/claro/claro.css" rel="stylesheet" type="text/css"
+          media="screen">
+
+    <script src="/jslib/dojo-release-1.11.2/dojo/dojo.js"></script>
+    <script src="/jslib/myutils.js"></script>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<script>
+    require([
+        "../../jslib/dojox/charting/Chart",
+        "dojox/charting/themes/PlotKit/green",
+        "dojox/charting/plot2d/Columns",
+        "dojox/charting/plot2d/Markers",
+        "dojox/charting/axis2d/Default",
+        "dojo/domReady!"
+    ], function (Chart, theme) {
+
+        var all_data = loadDataFromServer('/json/sales.json');
+        var data_list=all_data.data;
+
+//        var data_list=getJSONData({ url:'/json/sales.json', condition:null, consoleLog:true },
+//                function (success, result) {
+//                    if(success){
+//                        //todo success action
+//
+//                        return result;   console.log("result=", result); console.log("data_list=", data_list);
+//                    } else {
+//                        //todo error action
+//
+//                    }
+//                });
+
+        var chart = new Chart("chartNode");
+        chart.setTheme(theme);
+        chart.addPlot("default", {
+            type: "Columns",
+            markers: true,
+            gap: 10
+        });
+
+        var labs = [];
+        for (var j = 0; j < data_list.length; j++) {
+            labs[j] = {value: j + 1, text: data_list[j].month};
+        }
+
+        chart.addAxis("x", {
+            font: "normal normal bold 14pt Tahoma",
+            fontColor: "green",
+            labels: labs
+        });
+        chart.addAxis("y", {min: 0, vertical: true, fixLower: "major", fixUpper: "major", font: "normal normal bold 14pt Tahoma",
+            fontColor: "green"});
+
+
+        var getSums = function () {
+            var list_sum = [];
+            for (var i = 0; i < data_list.length; i++) {
+                list_sum[i] = data_list[i].sum;
+            }
+            return list_sum;
+
+        };
+
+        chart.addSeries("Monthly Sales", getSums());
+        chart.render();
+    });
+
+</script>
+
+<div id="chartNode" style="width:800px;height:400px;"></div>
+
+
+</body>
+</html>

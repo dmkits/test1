@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="shortcut icon" type="image/x-icon" href="/icon1.ico" />
+    <meta charset="UTF-8">
+    <title>All apps</title>
+</head>
+<body onload="createAppPage()">
+<table width="100%" height="100%">
+    <tr style="border:solid 1px;">
+    </tr>
+    <tr>
+        <td width="35%" height="=100%">
+            <div id="actions" align="centre" style="width:100%;height:100%; border: solid 1px;"></div>
+        </td>
+        <td width="65%" height="100%" bgcolor="#f0ffff">
+            <div id="content" align="center" style="width:100%;height:100%;border: solid 1px;"></div>
+        </td>
+
+    </tr>
+</table>
+
+</body>
+<script language="JavaScript">
+   var createAppPage=function(){
+       createAppMenu();
+        createAppButton();
+        createAppText()
+    };
+   var createAppText=function(){
+       document.getElementById("content").innerHTML="<h1 style='font-size:200%; font-family: Helvetica'>ALL</br> APPS</br> TEST</h1>";
+   };
+   var createAppMenu=function(){
+       var container = document.getElementById("actions");
+
+       container.appendChild(createAppButton("Измени размер окна","/pages/window_size.html", "resizewin"));
+       container.appendChild(createAppButton("Введи логин и пароль","/pages/login_password.html"));
+       container.appendChild(createAppButton("Простая дата","/pages/date_simple.html"));
+       container.appendChild(createAppButton("Дата с ипользованием moment","/pages/date_moment.html"));
+       container.appendChild(createAppButton("Кнопки и таблица","/pages/trial/buttons_menu.html"));
+       container.appendChild(createAppButton("Таблица handsontable","/pages/tr/h_table1.html"));
+       container.appendChild(createAppButton("Handsontable и СПИСКИ", "/pages/h_table_lists.html"));
+       container.appendChild(createAppButton("DOJO TEST", "/pages/DOJO_tests/simple.html"));
+       container.appendChild(createAppButton("DOJO CHARTS", "/pages/DOJO_tests/dojo_charts.html"));
+       container.appendChild(createAppButton("DOJO CHARTS Line", "/pages/DOJO_tests/dojo_charts2.html"));
+       container.appendChild(createAppButton("DOJO CHARTS JSON", "/pages/DOJO_tests/charts_json.html"));
+       container.appendChild(createAppButton("Header and footer tables", "/pages/title_table.html"));
+       container.appendChild(createAppButton("Mobile DOJO", "/pages/DOJO_tests/demo/calendarLite.html"));
+       container.appendChild(createAppButton("Mobile BATA  DOJO", "/mobile_app/mobile1.html"));
+       container.appendChild(createAppButton("UPLOAD FILE", "/pages/trial/upload_file_test.html"));
+       container.appendChild(createAppButton("UPLOAD FILE DOJO", "/pages/trial/upload_file_test_dojo.html"));
+
+   };
+    var createAppButton=function(label,reference, id){
+        var button = document.createElement("button");
+        button.style= "width :100%; color:blue";
+        button.appendChild(document.createTextNode(label));
+        button.setAttribute("id",id);
+        button.onclick=function(){
+            window.location.href = reference;
+        };
+        return button;
+    };
+
+
+
+
+    var o1= {};
+//
+//    o1.f1= function(){
+//        var counter1 = 1;                                           console.log("f1: counter1=",counter1);
+//
+//        o1.f2= function(){
+//            counter1++;                                           console.log("f2: counter1=",counter1);
+//        };
+//        o1.f2();
+//    }
+//
+//    o1.f1();
+//    o1.f1();
+//    o1.f2();
+//    o1.f2();
+//
+//    o1.f1();
+
+   var var1="var1";
+   o1.sf1= function(){
+       var var1 = "var1_1";                                           console.log("sf1: var1=",var1," ",this);
+       var3="var3_3";
+
+       o1.sf2= function(){
+           var1=var1+"+1";                                           console.log("sf2: var1=",var1," var3",var3);
+       };
+       o1.sf2();
+   };
+
+   o1.sf1();
+
+   var1="var var1";
+   o1.sf2();
+   var3="var3_3_3";
+   o1.sf2();
+   o1.sf1();
+
+
+    function df5(){
+        var count=1;                                        console.log("df5: count=",count);
+
+        function incCount(s1){
+            count++;                                    console.log(s1+"incCount: count=",count);
+        }
+        return incCount;
+    }
+
+   var count=-5;
+
+    var c1= df5();
+   var count=-5;
+   c1("c1:");
+   c1("c1:");
+
+   var c2= df5();
+   var count=-5;
+   c2("c2:");
+   c2("c2:");
+   c2("c2:");
+   c2("c2:");
+
+   c1("c1:");
+   var c3= df5();
+   var count=-5;
+    c3("c3:");
+    c2("c2:");
+    c1("c1:");
+
+</script>
+</html>

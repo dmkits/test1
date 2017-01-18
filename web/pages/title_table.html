@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script src="/jslib/myutils.js"></script>
+    <script src="/jslib/printTable.js"></script>
+    <script src="/jslib/moment-with-locales.js"></script>
+    <script src="/jslib/Numeral-js/min/numeral.min.js"></script>
+    <script src="/jslib/Numeral-js/min/languages/ru-UA.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css">
+    <title></title>
+    <style>
+        table, th, td {
+            margin: 5px;
+            border-collapse: collapse;
+            font-size: 12px;
+        }
+        th, td {
+            border: solid 1px black;
+            padding: 2px 8px 2px 8px;
+        }
+    </style>
+</head>
+<body>
+<div id="top_table"></div>
+<div id="content"></div>
+<div id="bottom_table"></div>
+</body>
+<script type="text/javascript">
+
+
+    var printTableContentData = loadDataFromServer('/json/data1.json');
+
+    var createSimpleDocumentPage = function (printTableContentData) {
+
+        var table_width = calcTableWidth(printTableContentData);
+        document.getElementById("content").appendChild(createPrintDetailTable(printTableContentData.columns, printTableContentData.data, table_width));
+        document.getElementById("top_table").appendChild(createDescriptiveTable(printTableContentData.header, table_width));
+        document.getElementById("bottom_table").appendChild(createDescriptiveTable(printTableContentData.footer, table_width));
+    };
+
+    createSimpleDocumentPage(printTableContentData);
+
+</script>
+</html>
+
+
+

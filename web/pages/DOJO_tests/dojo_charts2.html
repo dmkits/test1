@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link href="/jslib/dojo-release-1.11.2/dijit/themes/claro/claro.css" rel="stylesheet" type="text/css" media="screen">
+
+    <script src="/jslib/dojo-release-1.11.2/dojo/dojo.js"></script>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<script>
+    require([
+// Require the basic chart class
+        "../../jslib/dojox/charting/Chart",
+
+// Require the theme of our choosing
+        "dojox/charting/themes/Minty",
+
+// Charting plugins:
+
+//  We want to plot Columns
+        "dojox/charting/plot2d/Bars",
+
+//  We want to use Markers
+        "dojox/charting/plot2d/Markers",
+
+//  We'll use default x/y axes
+        "dojox/charting/axis2d/Default",
+
+// Wait until the DOM is ready
+        "dojo/domReady!"
+    ], function(Chart, theme) {
+
+// Define the data
+        var chartData = [10000,9200,11811];
+
+// Create the chart within it's "holding" node
+        var chart = new Chart("chartNode");
+
+// Set the theme
+        chart.setTheme(theme);
+
+// Add the only/default plot
+        chart.addPlot("default", {
+            type: "Bars",
+            markers: true,
+            gap: 5
+        });
+
+// Add axes
+        chart.addAxis("x", { fixLower: "major", fixUpper: "major"
+
+        });
+        chart.addAxis("y",
+                {
+                    vertical: true,
+                    font: "normal normal bold 10pt Tahoma",
+            labels: [{value: 1, text: "Jan"}, {value: 2, text: "Feb"},
+                {value: 3, text: "Mar"}]});
+
+// Add the series of data
+        chart.addSeries("Monthly Sales",chartData);
+
+// Render the chart!
+        chart.render();
+
+    });
+
+</script>
+
+<div id="chartNode" style="width:400px;height:350px;"></div>
+
+</body>
+</html>

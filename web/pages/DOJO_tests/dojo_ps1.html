@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Tutorial</title>
+</head>
+<body>
+<h1 id="source">Dojo can interrogate the DOM</h1>
+<h2 id="destination"></h2>
+<span id="WikiDada"></span>
+
+<script src="/jslib/dojo-release-1.11.2/dojo/dojo.js"></script>
+
+<script>
+    require(["../../jslib/dojo-release-1.11.2/dojo/dom"], function(dom){
+        dom.byId("destination").innerText=dom.byId("source").innerText;
+    });
+    require(["../../jslib/dojo-release-1.11.2/dojo/dom", "dojo/request"], function(dom, request){
+        request.get("https://en.wikipedia.org/wiki/Main_Page").then(function(data){
+            dom.byId("WikiDada").innerText=data;
+        });
+    });
+
+
+</script>
+</body>
+</html>

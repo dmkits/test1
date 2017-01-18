@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link href="/jslib/dojo-release-1.11.2/dijit/themes/claro/claro.css"
+          rel="stylesheet"
+          type="text/css"/>
+    <script src="/jslib/dojo-release-1.11.2/dojo/dojo.js"></script>
+
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<div id="main_Container">
+    <div id="top_Container"></div>
+    <div id="left_Container"></div>
+    <div id="center_Container"></div>
+    <div id="right_Container"></div>
+</div>
+<script>
+    function initElem(registry, ID, htmlElemName, Class, Params) {
+        var Object = null;
+        if (registry!=null) Object = registry.byId(ID);
+        if (Object==null) {
+            Params.id = ID;
+            Object = new Class(Params, htmlElemName);
+        }
+        return Object;
+    }
+
+    require([
+
+        "../../jslib/dojo-release-1.11.2/dijit/MenuBar",
+        "dijit/MenuBarItem",
+        "dijit/Menu",
+        "dijit/layout/BorderContainer",
+        "dijit/layout/ContentPane",
+        "dijit/PopupMenu",
+        "dijit/PopupMenuItem",
+        "dijit/MenuItem",
+        "dijit/PopupMenuBarItem",
+        "dijit/DropDownMenu",
+        "dojo/domReady!",
+
+    ], function (MenuBar,MenuBarItem, Menu,BorderContainer, ContentPane,PopupMenu,PopupMenuItem,MenuItem,PopupMenuBarItem,DropDownMenu,) {
+
+        var mainContainer = initElem(null, "main_Container", "main_Container", BorderContainer, {design: "headline"});
+
+        var top_Container = initElem(null, "top_Container", "top_Container",
+                BorderContainer, {region: "top", design: "sidebar", class: "mainTopContent", gutters: true});
+
+        var main_MainMenu = initElem(null, "main_MainMenu", "main_MainMenu", MenuBar, {region:"top", class: "mainTopContent"});
+        var main_TopInfoPane = initElem(null, "main_TopInfoPane", "main_TopInfoPane", ContentPane, {region: "bottom", class: "mainTopContent"});
+        mainContainer.startup();
+
+        main_MainMenu.addChild(new PopupMenuItem({label: "File", id:"file"}).addChild());
+        main_MainMenu.addChild(new MenuBarItem({label: "View", id:"view"}));
+        main_MainMenu.addChild(new MenuBarItem({label: "Save", id:"save"}));
+            top_Container.addChild(main_MainMenu);
+
+                            return ;
+
+
+                 else {// make sub-menu
+                    var mainPopupMenuBarItem = initChild(registry, item.itemname, null, PopupMenuBarItem, {label: item.itemtitle});
+                    var popupMenu = new Menu({id: item.itemname + "_menu"});
+                    mainPopupMenuBarItem.set("popup", popupMenu); main_MainMenu.addChild(mainPopupMenuBarItem);
+                    for(var pi in item.menuPopup) {
+                        var pitem=item.menuPopup[pi];
+                        var piitemname = pitem.itemname;
+                        if (piitemname.indexOf("separator")==0) {
+                            var popupMenuItem = initChild(registry, piitemname, popupMenu, MenuSeparator, {});
+                        } else {
+                            var popupMenuItem = initChild(registry, piitemname, popupMenu, MenuItem, {label:pitem.itemtitle, itemData:pitem});
+                            popupMenuItem.onClick = function () { main_MainContainer.runMainAction(this.itemData); };
+                        }
+                    }
+                    popupMenu.startup();
+                }
+            }
+        };
+        main_MainContainer.runMainAction = function(actionData) {                                       console.log("main_MainContainer.runMainAction: actionData=",actionData);//!!!IT'S FOR TESTING!!!
+            if (actionData.action=="close") {
+                main_MainMenu.destroy();
+                main_ContentContainer.destroy();
+                www.win2.cwww.win2.cn/g9
+                postJSONData({url:"/",condition:"action=exit"},
+                        /*posaction*/function(success,result){
+                            var resultContent;
+                            if (success&&result&&result.actionResult=="successfull") resultContent= "<div>ÐÑ Ð·Ð°ÐºÑÑÐ»Ð¸ Ð²ÑÐµ Ð¾ÐºÐ½Ð° Ð¸ Ð²ÑÑÐ»Ð¸ Ð¸Ð· ÑÐ°Ð±Ð¾ÑÐµÐ¹ ÑÐµÑÑÐ¸Ð¸.</div>";
+                            else resultContent= "<div>ÐÑ Ð·Ð°ÐºÑÑÐ»Ð¸ Ð²ÑÐµ Ð¾ÐºÐ½Ð°.</div>";
+                            main_MainContainer.addChild(new ContentPane({id:"finish", title:"finish", region:"center",content:resultContent}) );
+                        });
+            } else if (actionData.action=="help_about") {
+                mainAboutDialog();
+            } else if (actionData.action=="open") {
+                var pageContentPane =
+                        initChild(registry, "PageContentPane_"+actionData.id, main_ContentContainer,
+                                XContentPane, {title:actionData.title, closable:actionData.closable, parseOnLoad:false, style:"margin:0;padding:0;"});
+                main_ContentContainer.selectChild(pageContentPane);
+                pageContentPane.set("content","");
+                pageContentPane.set("href",actionData.content);
+            } else {
+                console.log("main_MainContainer.runMainAction: unknown action:\""+actionData.action+"\"!!! do nothing!!!");
+            }
+        };
+        main_MainContainer.runAutorunActions = function() {
+            if(!main_MainContainer.mainContentData||!main_MainContainer.mainContentData.autorun) return;
+            var autorunActions = main_MainContainer.mainContentData.autorun;
+            for(var autorunActionNum in autorunActions){
+                var autorunAction = autorunActions[autorunActionNum];
+                var autorunMenuItemName = autorunAction.menuitem;
+                var mainmenu = main_MainContainer.mainContentData.menuBar;
+                for(var i in mainmenu) {// create and add main menu items
+                    var item=mainmenu[i];
+                    if (item.menuPopup == null || item.menuPopup.length == 0) {
+                        if(item.itemname==autorunMenuItemName) main_MainContainer.runMainAction(item);
+                    } else {
+                        for(var pi in item.menuPopup) {
+                            var pitem = item.menuPopup[pi];
+                            if(pitem.itemname==autorunMenuItemName) main_MainContainer.runMainAction(pitem);
+                        }
+                    }
+                }
+            }
+        };
+                /*postaction*/function(){
+                    main_MainContainer.createMainMenu();
+                });
+    });
+
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <link href="/jslib/dojo-release-1.11.2/dijit/themes/claro/claro.css" rel="stylesheet" type="text/css" media="screen">
+
+    <script src="/jslib/dojo-release-1.11.2/dojo/dojo.js"></script>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body id="body" class="claro">
+<form enctype="multipart/form-data" method="post">
+<input id="input" type="file">
+<!--<input type="file" multiple="true" data-dojo-type="dojox/form/Uploader"-->
+       <!--data-dojo-props="-->
+        <!--label: 'Select Some Files',-->
+        <!--url: '/tests/UploadFile.php',-->
+        <!--uploadOnSelect: true">-->
+    </form>
+</body>
+
+<script>
+    require(["dojo/parser","dojo/ready","dojox/form/Uploader", "dojox/form/uploader/FileList"],
+            function (parser, ready,Uploader, FileList ) {
+
+                var uploader = new Uploader({},"input");
+               // document.getElementById("body").appendChild(fl.domNode);
+                var fileList = new FileList({});
+                document.getElementById("body").appendChild(fileList.domNode);
+
+
+      //  parser.parse();
+
+    });
+
+</script>
+
+
+</html>

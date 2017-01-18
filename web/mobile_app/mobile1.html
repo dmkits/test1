@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="ru">
+<!--xmlns="http://www.w3.org/1999/xhtml"-->
+<head>
+    <link rel="shortcut icon" type="image/x-icon" href="/icons/bata32x32.ico"/>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no"/>
+    <!--<meta name="apple-mobile-web-app-capable" content="yes"/>-->
+
+    <link href="/jslib/dojox/mobile/themes/iphone/iphone.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="/jslib/dojox/widget/Calendar/Calendar.css">
+    <link rel="stylesheet" href="/jslib/dojox/calendar/themes/claro/Calendar.css">
+    <link href="/jslib/dijit/themes/claro/claro.css" rel="stylesheet" type="text/css">
+    <script type="text/javascript" src="/jslib/dojox/mobile/deviceTheme.js"></script>
+    <script src="/jslib/myutils.js"></script>
+    <!--<script src="/jslib/handsontable/moment/moment-with-locales.js"></script>-->
+    <!--<script src="/jslib/handsontable/numeral/numeral.js"></script>-->
+    <!--<script src="/jslib/handsontable/numeral/languages/ru-UA.js"></script>-->
+    <script src="/jslib/dojo/dojo.js" data-dojo-config="parseOnLoad: true"></script>
+    <!--<script src="/jslib/dijit/dijit.js"></script>-->
+
+    <title></title>
+    <style>
+        .claro table.dijitCalendarContainer {
+            margin: 25px auto;
+        }
+
+        .mblTooltipBubble {
+            overflow: visible;
+            padding: 3px;
+        . mblTooltipBubble-styles;
+        }
+
+        #date_picker {
+            text-align: center;
+            position: relative;
+            font-size: 1.5em;
+            font-weight: lighter;
+        }
+    </style>
+</head>
+<body id="body" class="claro">
+<div id="view1">
+</div>
+</body>
+<script>
+    require(["dojox/mobile", "dojox/mobile/parser","dojox/mobile/View","dojox/mobile/Heading", "dojox/mobile/RoundRectList","dojox/mobile/ListItem" ,"dojox/mobile/ToolBarButton" ],
+            function(mobile, mparser, View,Heading, roundRectList, ListItem, ToolBarButton){
+                var view1 = new View(null, "view1");
+                var heading1 = new Heading({},"heading");
+
+
+                var table = document.createElement('table');
+                table.setAttribute("align","center");
+                var tbody=document.createElement('tbody');
+                var tr=document.createElement('tr');
+                var td=document.createElement('td');
+                td.setAttribute("aling","center");
+                heading1.domNode.appendChild(table);
+                table.appendChild(tbody);
+                tbody.appendChild(tr);
+                tr.appendChild(td);
+
+                var b= new ToolBarButton({label: "Button"});
+                var b2= new ToolBarButton({label: "Button"});
+                var b3= new ToolBarButton({label: "Button"});
+                var b4= new ToolBarButton({label: "Button"});
+
+                td.appendChild(b.domNode);
+                td.appendChild(b2.domNode);
+
+               // heading1.addChild(b);
+                view1.addChild(heading1);
+                view1.startup();
+            });
+</script>
+
+
+</html>

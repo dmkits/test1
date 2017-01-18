@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script src="../jslib/moment-with-locales.js"></script>
+    <script src="/jslib/myutils.js"></script>
+    <style type="text/css">
+        /*caption{*/
+        /*caption-side:top;*/
+            /*padding-bottom: 10px;*/
+            /*font-size: 1.5em;*/
+            /*font-weight:bold;*/
+        /*}*/
+        table, th, td {
+            border: solid 1px black;
+            border-collapse: collapse;
+            padding: 2px 8px 2px 8px;
+        }
+        tr{page-break-inside: avoid;}
+        .numeric {
+            text-align: right;
+        }
+        .PRODUCT_UM{
+            text-align: center;
+        }
+        .date{
+            width:80px;
+            text-align: center
+        }
+
+    </style>
+    <title></title>
+</head>
+<body onload="createContent()">
+<div id="table_name" style="width: 690px; text-align: center; font-size: 1.5em; font-weight: bold; padding: 10px">
+    Table name
+</div>
+<table style="width:690px; margin: 10px; padding: 5px">
+   <tr>
+       <th style="border-bottom: hidden; border-top: hidden; border-left: hidden; text-align: right">Период с </th>
+       <th></th>
+       <th style="border-bottom: hidden; border-top: hidden;  text-align: right"> по </th>
+       <th></th>
+   </tr>
+
+</table>
+<div id="content" style="width:100%;height:100%;"></div>
+<table style="width:690px; margin: 10px; padding: 5px">
+    <tr>
+        <th style="border-bottom: hidden; border-top: hidden; border-left: hidden; text-align: right">Кол-во: </th>
+        <th></th>
+        <th style="border-bottom: hidden; border-top: hidden; text-align: right">Сумма:</th>
+        <th></th>
+        <th style="border-bottom: hidden; border-top: hidden; text-align: right">Еще что-то:</th>
+        <th></th>
+    </tr>
+
+</table>
+
+</body>
+<script Language="JavaScript">
+
+   // moment.locale("uk");
+
+    var createContent = function () {
+        var table_data = loadDataFromServer('/json/retail_by_dates.json');
+        var columns = table_data.columns;
+        var objectData = table_data.data;
+        var columnsHeaders = [];
+        for (var i = 0; i < table_data.columns.length; i++) {
+            columnsHeaders[i] = table_data.columns[i].name;
+        }
+        var table = document.createElement('table');
+//        table.setAttribute("class", "table");
+//        var caption=document.createElement('caption');
+//        table.appendChild(caption);
+//
+//        caption.innerText="Table name";
+
+        var row;
+        var cell;
+        var table_header_row = table.insertRow(0);
+
+        for (var k = 0; k < columnsHeaders.length; k++) {
+            var h_cell = document.createElement("TH");
+            h_cell.innerHTML = columnsHeaders[k];
+            h_cell.dataID = columns[k].data;
+            table_header_row.appendChild(h_cell);
+        }
+
+        for (var r = 0; r < objectData.length; r++) {
+            row = table.insertRow(-1);
+            var dataItem = objectData[r];
+
+            for (var c = 0; c < columns.length; c++) {
+                cell = row.insertCell(-1);
+                var dataItemName = columns[c].data;
+                var data_type = columns[c].type;
+                cell.setAttribute("dataRowID", r);
+                cell.setAttribute("class", "cell");
+                if (dataItemName) {
+                    if (data_type === "numeric") {
+                        cell.setAttribute("class", "numeric");
+                    }
+                    if(dataItemName==="PRODUCT_UM"){
+                        cell.setAttribute("class", "PRODUCT_UM")
+                    }
+
+                    cell.innerHTML = dataItem[dataItemName];
+                    if (data_type == "text" && columns[c].dateFormat !== undefined) {
+                        var date = moment(dataItem[dataItemName]);
+                        cell.innerHTML = date.format(columns[c].dateFormat);
+                        cell.setAttribute("class","date")
+                    }
+                }
+            }
+        }
+        document.getElementById("content").appendChild(table);
+    };
+</script>
+</html>

@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script src="/jslib/myutils.js"></script>
+    <title></title>
+</head>
+<body onload="createPage()">
+<table width="100%" height="100%">
+    <tr style="border:solid 1px;">
+    </tr>
+    <tr>
+        <td width="300px">
+            <div id="left_menu1" align="right" style="width:100%;height:100%"></div>
+        </td>
+        <td width="100%">
+            <div id="content" align="centre" style="width:100%;height:100%;border: solid 1px;"></div>
+        </td>
+        <td>
+            <div id="description" name="description" align="left"
+                 style="width:300px;height:100%;border: solid 1px;"
+                    datatype="text"></div>
+        </td>
+    </tr>
+</table>
+</body>
+<script type="text/javascript">
+
+    var createPage = function () {
+        createMenu();
+        createContent();
+    };
+
+    var data = loadDataFromServer("/json/data_trial_menu1.json");
+
+    var createButton = function (btnID, btnCaption, btnAction) {
+        var btn;
+        btn = document.createElement("button");
+        btn.style = "width :300px";
+        btn.appendChild(document.createTextNode(btnCaption));
+        if (btnAction !== undefined) {
+
+            btn.onclick = function () {
+                btnAction();
+            };
+        }
+        return btn;
+    };
+
+    var createMenu = function () {
+        var menu_container = document.getElementById("left_menu1");
+        var br = document.createElement("br");
+
+        for (var i = 0; i < data.menu.length; i++) {
+            var btnID = data.menu[i].itemName;
+            var btnCaption = data.menu[i].itemCaption;
+            var btnActionName = data.menu[i].action;
+            var btnAction;
+            if (btnActionName == "exit") {
+                btnAction = function () {
+                    clear();
+                }
+            }
+            var b = createButton(btnID, btnCaption, btnAction);
+
+            menu_container.appendChild(b);
+            menu_container.appendChild(br);
+        }
+    };
+
+    var clear = function () {
+        var list = document.getElementById("left_menu1");
+
+        while (list.firstChild) list.removeChild(list.firstChild);
+    };
+    var createContent = function () {
+        var table_data = loadDataFromServer('/json/data1.json');
+        var columns = table_data.columns;
+        objectData = table_data.data;
+        var columnsHeaders = [];
+        for (var i = 0; i < table_data.columns.length; i++) {
+            columnsHeaders[i] = table_data.columns[i].name;
+        }
+        var table = document.createElement('table');
+        var row;
+        var cell;
+        var table_header_row = table.insertRow(0);
+
+        for (var k = 0; k < columnsHeaders.length; k++) {
+            var h_cell = document.createElement("TH");
+            h_cell.innerHTML = columnsHeaders[k];
+            h_cell.dataID = columns[k].data;
+            table_header_row.appendChild(h_cell);
+        }
+
+        for (var r = 0; r < objectData.length; r++) {
+            row = table.insertRow(-1);
+            var dataItem = objectData[r];
+
+            for (var c = 0; c < columns.length; c++) {
+                cell = row.insertCell(-1);
+                var dataItemName = columns[c].data;
+                cell.setAttribute("dataRowID", r);
+                cell.onclick = function () {
+                    describe(this);
+                };
+
+                if (dataItemName) {
+                    cell.innerHTML = dataItem[dataItemName];
+                }
+            }
+        }
+        document.getElementById("content").appendChild(table);
+    };
+    var describe = function (cell) {
+
+        var num = cell.getAttribute("dataRowID");
+
+        var objectDataItem = objectData[num];
+
+        var s="";
+        for (var item in objectDataItem) {
+            var itemData = objectDataItem[item];
+            s= s+item +": "+itemData.toString()+"</br>";
+        }
+        document.getElementById("description").innerHTML=s;
+    }
+</script>
+</html>

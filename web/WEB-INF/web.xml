@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee"
+         xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
+         version="3.0">
+    <display-name>Example</display-name>
+
+    <filter>
+        <filter-name>FileLoadController</filter-name>
+        <filter-class>controllers.FileLoadController</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>FileLoadController</filter-name>
+        <url-pattern>*.ico</url-pattern>
+        <url-pattern>*.gif</url-pattern>
+        <url-pattern>*.jpg</url-pattern>
+        <url-pattern>*.png</url-pattern>
+        <url-pattern>*.css</url-pattern>
+        <url-pattern>*.js</url-pattern>
+        <url-pattern>*.json</url-pattern>
+        <url-pattern>*.swf</url-pattern>
+        <url-pattern>*.html</url-pattern>
+    </filter-mapping>
+
+    <servlet>
+        <servlet-name>FileLoader</servlet-name>
+        <servlet-class>org.eclipse.jetty.servlet.DefaultServlet</servlet-class>
+        <load-on-startup>2</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>FileLoader</servlet-name>
+        <url-pattern>*.ico</url-pattern>
+        <url-pattern>*.gif</url-pattern>
+        <url-pattern>*.jpg</url-pattern>
+        <url-pattern>*.png</url-pattern>
+        <url-pattern>*.css</url-pattern>
+        <url-pattern>*.js</url-pattern>
+        <url-pattern>*.json</url-pattern>
+        <url-pattern>*.swf</url-pattern>
+        <url-pattern>*.html</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>MainController</servlet-name>
+        <servlet-class>controllers.MainController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>MainController</servlet-name>
+        <url-pattern>/</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>UploadServlet</servlet-name>
+        <servlet-class>UploadServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>UploadServlet</servlet-name>
+        <url-pattern>/UploadServlet</url-pattern>
+    </servlet-mapping>
+
+    <welcome-file-list>
+        <welcome-file>main.html</welcome-file>
+    </welcome-file-list>
+    <jsp-config>
+    </jsp-config>
+</web-app>

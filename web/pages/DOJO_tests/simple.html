@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link href="/jslib/dojo-release-1.11.2/dijit/themes/claro/claro.css" rel="stylesheet" type="text/css">
+    <script src="/jslib/dojo-release-1.11.2/dojo/dojo.js"></script>
+    <meta charset="UTF-8">
+    <title></title>
+    <style type="text/css">
+        html, body {
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+        }
+    </style>
+</head>
+<body class="claro">
+<div id="all_content">
+    <div id="top_panel"></div>
+    <div id="left_panel" style="width: 100px; padding-right: 50px; padding-top: 30px"></div>
+    <div id="center_panel"></div>
+</div>
+</body>
+
+<script>
+    require([
+        "../../jslib/dojo-release-1.11.2/dijit/registry",
+        "dijit/MenuBar",
+        "dijit/MenuBarItem",
+        "dijit/layout/BorderContainer",
+        "dijit/layout/ContentPane",
+        "dijit/form/Button",
+        "dijit/layout/TabContainer",
+        "dojo/domReady!"
+    ], function (registry, MenuBar, MenuBarItem, BorderContainer, ContentPane, Button, TabContainer) {
+        var all_content = new BorderContainer({style: "height: 100%; width: 100%; border:solid 1px;"}, "all_content");
+        var top_panel = new ContentPane({region: "top"}, "top_panel");
+        var left_panel = new ContentPane({region: "left"}, "left_panel");
+        var center_panel = new TabContainer({
+            id: "center_panel",
+            region: "center",
+            tabPosition: "bottom"
+        }, "center_panel");
+        all_content.startup();
+
+        var tabs_name_list = [];
+        var menu = new MenuBar({});
+        top_panel.addChild(menu);
+        menu.startup();
+
+        var create_menu = function () {
+            menu.addChild(new MenuBarItem({
+                id: "edit",
+                label: "Edit"
+            }));
+            menu.addChild(new MenuBarItem({
+                id: "view",
+                label: "View"
+            }));
+            menu.addChild(new MenuBarItem({
+                id: "task",
+                label: "Task"
+            }));
+        };
+
+        left_panel.addChild(new Button({
+            label: "Picture", onClick: function () {
+                addTab(this.label);
+            }
+
+        }));
+        left_panel.addChild(new Button({
+            label: "Text", onClick: function () {
+                addTab(this.label);
+            }
+        }));
+        left_panel.addChild(new Button({
+            label: "Table", onClick: function () {
+                addTab(this.label);
+            }
+        }));
+
+        left_panel.addChild(new Button({
+            label: "Chart 1", onClick: function () {
+                addTab(this.label);
+            }
+        }));
+
+        left_panel.addChild(new Button({
+            label: "Chart 2", onClick: function () {
+                addTab(this.label);
+            }
+        }));
+
+        function addTab(name) {
+
+            var pane = registry.byId(name);
+
+            if (!pane) {
+                pane = new ContentPane({
+                    id: name,
+                    title: name,
+                    selected: true
+                });
+                center_panel.addChild(pane);
+
+            }
+            center_panel.selectChild(pane);
+            if (pane.id === "Picture") {
+                pane.set('href', "/DOJO_tests/demo/picture.html");
+            }
+            if (pane.id === "Text") {
+                pane.set("content", "<h1 style='color:green;'>Кулебяка</h1>");
+            }
+            if (pane.id === "Table") {
+                pane.set("content", "<iframe src='/pages/trial/buttons_menu.html' width='100%' height='100%' align='left'></iframe>");
+            }
+            if (pane.id === "Chart 1") {
+                pane.set("content", "<iframe src='/DOJO_tests/dojo_charts.html' width='100%' height='100%' align='left'></iframe>");
+            }
+            if (pane.id === "Chart 2") {
+                pane.set("content", "<iframe src='/DOJO_tests/dojo_charts2.html' width='100%' height='100%' align='left'></iframe>");
+            }
+        }
+
+
+//                var f1= function(){
+//                    return "<h4>" + name + "</h4>";
+//                };
+
+        create_menu();
+        all_content.layout();
+    });
+</script>
+
+</html>

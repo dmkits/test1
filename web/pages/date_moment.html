@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script src="../jslib/moment-with-locales.js"></script>
+    <script Language="JavaScript">
+        var clock=function() {
+
+            var now = moment();
+            moment.locale("uk");
+
+            document.clock.time.value=now.format("H:mm:ss");
+            document.clock.date.value = now.format("DD MMMM YYYY p.");
+
+            document.clock.first_day.value = now.startOf('month').format("DD MMMM YYYY p.");
+            document.clock.last_day.value = now.endOf('month').format("DD MMMM YYYY p.");
+
+            document.clock.quarter_beginnig.value=now.startOf('quarter').format("DD MMMM YYYY p.");
+            document.clock.quarter_end.value=now.endOf('quarter').format("DD MMMM YYYY p.");
+
+            var Timer = setTimeout("clock() ", 1000);
+        }
+
+    </script>
+</head>
+
+<body onload="clock()">
+   <form name="clock">
+       Время:
+          <input type= "text" name="time"><br>
+       Дата:
+          <input type="text" name="date"><br>
+       <br>
+       Начало текущего месяца:
+         <input type="text" name="first_day"><br>
+       Конец текущего месяца:
+         <input type="text" name="last_day"><br>
+       <br>
+
+       Начало текущего квартала:
+       <input type="text" name="quarter_beginnig"><br>
+       Конец текущего квартала:
+       <input type="text" name="quarter_end">
+
+
+   </form>
+</body>
+</html>

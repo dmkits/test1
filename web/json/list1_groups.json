@@ -1,0 +1,17 @@
+{
+  "columns":[	{ "data":"CODE","name":"CODE"},
+                { "data":"GROUP","name":"GROUP"}	],
+  "data": [
+    {	"CODE":"A",	"GROUP":"MEN"	},
+    {	"CODE":"B",	"GROUP":"LADIES"	},
+    {	"CODE":"C",	"GROUP":"CHILDREN"	},
+    {	"CODE":"D",	"GROUP":"CANVAS"	},
+    {	"CODE":"E",	"GROUP":"ATHLETIC"	},
+    {	"CODE":"F",	"GROUP":"OTHERS"	},
+    {	"CODE":"G",	"GROUP":"ACCESSORIES"	},
+    {	"CODE":"M",	"GROUP":"CLOTHINGS"	},
+    {	"CODE":"Y",	"GROUP":"ATHLETIC APPAREL"	},
+    {	"CODE":"Z",	"GROUP":"NON-COMMERCIAL"	}
+  ]
+
+}

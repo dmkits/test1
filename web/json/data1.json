@@ -1,0 +1,50 @@
+{
+
+  "header":[
+    [
+      {"id":"store","width":150, "type":"numeric", "label":"Номер склада:","value":6, "value_width":80, "align":"center" },
+      {"width":350}
+    ],
+    [
+      {"width":100},
+      {"id":"bdate","width":200,  "type":"date", "label":"Нач.дата:","value":"2016-10-30", "value_width":80, "align":"center" },
+      {"id":"edate","width":200, "type":"date", "label":"Конечн.дата:","value":"2016-11-06", "value_width":80, "align":"center" }
+    ]
+  ],
+  "footer":[
+    [
+      { "id":"total_sum","width":200, "type":"numeric", "label":"Сумма реализации:","value":123456, "value_width":80 }
+    ],
+    [
+      { "id":"cash_sum", "width":200,
+        "type":"currency", "label":"Сумма нал:","value":5600.5, "value_width":80 }
+    ]
+  ],
+  "columns":[
+    {"data":"id", "name":"ID", "width":35},
+    {"data":"date", "name":"DATE","width":80, "type":"date"},
+    {"data":"car_number", "name":"CAR NUMBER", "width":80},
+    {"data":"trailer", "name":"TRAILER", "width":80, "align":"center"},
+    {"data":"driver_name", "name": "DRIVER NAME", "width":70},
+    {"data":"destination", "name":"DESTINATION", "width":110},
+    {"data":"tonnage","name":"TONNAGE", "width":85, "type":"numeric"},
+    {"data":"distance", "name":"DISTANCE", "width":85, "type":"numeric"}
+  ],
+  "data":[
+    {"id": "1",
+      "date":"03-10-2016", "car_number":"AE2134SR", "trailer":"Y",
+      "driver_name":"Vova", "destination":"Lviv","tonnage": "20","distance":"500000"},
+
+    {"id": "2",
+      "date":"03.10.2016", "car_number":"ЛВ12124SF", "trailer":"N",
+      "driver_name":"Roma", "destination":"Kiev","tonnage": "15","distance":"4000000"},
+
+    {"id": "3",
+      "date":"04.11.2016", "car_number":"ДН1313F", "trailer":"Y",
+      "driver_name":"Vasya", "destination":"Kharkiv","tonnage": "10","distance":"300"},
+
+    {"id": "4",
+      "date":"01.10.2017", "car_number":"ЗЖ2134SF", "trailer":"Y",
+      "driver_name":"Kolya", "destination":"Zaporija","tonnage": "15","distance":"60"}
+  ]
+}

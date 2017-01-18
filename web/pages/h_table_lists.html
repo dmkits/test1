@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<meta charset="UTF-8">
+
+<!--<link href="/jslib/handsontable.full.min.css" rel="stylesheet" media="screen">-->
+<!--<script src="/jslib/handsontable.full.min.js"></script>-->
+
+<script src="/jslib/handsontable/handsontable.full.min.js"></script>
+<link rel="stylesheet" media="screen" href="/jslib/handsontable/handsontable.full.min.css">
+<script src="/jslib/handsontable/numeral/languages/ru.js"></script>
+<script src="/jslib/handsontable/moment/moment.js"></script>
+<script src="/jslib/handsontable/moment/locale/ru.js"></script>
+<script src="/jslib/myutils.js"></script>
+<style type="text/css">
+    html, body {
+        language: ru;
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+    }
+
+    .myHTableCurrentRow {
+        background-color: #f00 !important;
+    }
+
+</style>
+<title></title>
+<body lang="ru" onload="createListButtons()">
+<table width="100%" height="100%">
+    <tr>
+        <td style="width:250px;height:100%; border:solid 1px">
+            <div id="lists" style="height:100%;padding: 5px"></div>
+        </td>
+        <td style="height:100%; border:solid 1px">
+            <table width="100%" height="100%">
+                <tr>
+                    <td height="100px">
+                        HEAD
+                        <div align="right">
+                           <!--<input type="button" value="Print" onClick='href="/pages/print_page.html"'>-->
+                            <a href="/pages/print_page.html" target="_blank"><input type="button" value="Print"></a>
+                            </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div id="content" class="content" style="border:solid 1px;height: 100%"></div>
+                    </td>
+                    <td style="width:200px; height:100%;border:solid 1px">
+                        <div id="description" style="height: 100%"></div>
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+</table>
+<script language="JavaScript">
+
+    var createListButtons = function () {
+        var container = document.getElementById("lists"), firstBtn;
+        container.appendChild(firstBtn = createButton("Список 1", '/json/list1_groups.json'));
+
+        container.appendChild(createButton("Список 2", '/json/list2_cats.json'));
+        container.appendChild(createButton("Список 3", '/json/list3_subcats.json'));
+        container.appendChild((createButton("Список 4", "/json/list4.json")));
+        container.appendChild((createButton("Список 5", "/json/retail_by_dates.json")));
+
+        firstBtn.onclick();
+    };
+    var createButton = function (label, content) {
+        var button = document.createElement("button");
+        button.appendChild(document.createTextNode(label));
+        button.style = "width:100%; margin-bottom:5px;";
+        button.onclick = function () {
+            createListTable(content);
+        };
+        return button;
+    };
+    var createListTable = function (dataURL) {
+
+        document.getElementById("content").innerHTML = "";
+
+        var table_data = loadDataFromServer(dataURL); console.log("table_data=", table_data);
+        var columns = table_data.columns;
+        var objectData = table_data.data;
+        var columnsHeaders = [];
+        for (var i = 0; i < table_data.columns.length; i++) {
+            columnsHeaders[i] = table_data.columns[i].name;
+        }
+        var container = document.getElementById('content');
+
+        var hot = new Handsontable(container, {
+            currentRowClassName: "myHTableCurrentRow",
+            columns: columns,
+            colHeaders: columnsHeaders,
+            data: objectData,
+            height: container.parentNode.offsetHeight - 5,
+
+            headerTooltips: {
+                rows: false,
+                columns: true,
+                onlyTrimmed: true,
+                dropdownMenu: true
+            },
+
+            afterSelection: function (r, c, r2, c2) {
+
+                var data_row = this.getDataAtRow(r);
+                console.log("data_row=", data_row);
+                var s = "";
+                for (var item in data_row) {
+                    var cell_data = data_row[item];
+                    var column_name = r.
+                            s = s + cell_data + "<br>";
+                }
+                document.getElementById("description").innerHTML = s;
+                console.log("s=", s);
+            },
+            afterChange: function (changes, source) {
+                console.log("changes=", changes, "source=", source);
+
+                if (changes === null) return;
+
+                if (source === "edit" || source === "autofill" || source === "paste") {
+
+                    for (var i = 0; i < changes.length; i++) {
+
+                        var changeItem = changes[i];
+                        this.afterCellChange(changes[i][0], changes[i][1], changes[i][3]);
+                    }
+                }
+            }
+        });
+
+        hot.afterCellChange = function (row, prop, newVal) {
+
+            if (prop === "QTY") {
+                var price = this.getDataAtRowProp(row, "PRICE");
+                this.setDataAtRowProp(row, "POSSUM", price * newVal, "myUpdate");
+            }
+            if (prop === "PRICE") {
+                var qty = this.getDataAtRowProp(row, "QTY");
+                this.setDataAtRowProp(row, "POSSUM", qty * newVal, "myUpdate");
+            }
+        };
+    }
+
+</script>
+
+
+</body>
+</html>

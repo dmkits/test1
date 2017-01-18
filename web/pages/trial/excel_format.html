@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <!-- https://github.com/SheetJS/js-xls/blob/master/xls.js -->
+
+    <script lang="javascript" src="/jslib/js-xlsx-master/dist/xlsx.core.min.js"></script>
+    <script src="/jslib/js-xlsx-master/dist/cpexcel.js"></script>
+    <script src="/jslib/js-xlsx-master/dist/ods.js"></script>
+    <script src="/jslib/js-xlsx-master/dist/xlsx.full.min.js"></script>
+    <script type="text/javascript" src="/jslib/js-xlsx-master/shim.js"></script>
+    <script src="/jslib/js-xlsx-master/dist/xlsx.js"></script>
+    <title></title>
+</head>
+<body>
+<input type="file" id="input" multiple onchange="handleFiles(this.files)">
+
+</body>
+<script>
+
+    var inputElement = document.getElementById("input");
+    inputElement.addEventListener("change", handleFiles, false);
+    function handleFiles() {
+//        var fileList = this.files;
+//        console.log(document.getElementById("input").files[0].name);
+
+        var name=document.getElementById("input").files[0].name;
+        console.log(name);
+        if(typeof require !== 'undefined') XLSX = require('xlsx');
+        var workbook = XLSX.readFile(name);
+        console.log(workbook);
+    }
+
+
+</script>
+
+</html>
