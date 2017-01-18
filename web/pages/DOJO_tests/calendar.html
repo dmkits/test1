@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="/jslib/dojo-release-1.11.2/dojox/calendar/themes/claro/Calendar.css">
+    <link href="/jslib/dojox/mobile/themes/iphone/iphone.css" rel="stylesheet"/>
+    <script src="/jslib/Pikaday-master/pikaday.js"></script>
+    <script src="/jslib/dojo-release-1.11.2/dojo/dojo.js"></script>
+    <title></title>
+    <style type="text/css">
+        .claro{ font-size: 12px; font-family:Myriad,Helvetica,Tahoma,Arial,clean,sans-serif; }
+    </style>
+
+    <script type="text/javascript">
+        require(["../../jslib/dojo/parser", "dojo/ready", "dojox/calendar/MobileCalendar"],
+                function(parser, ready, MobileCalendar){
+                    ready(function(){
+                                var calendar = new MobileCalendar({
+                                    dateInterval: "month",
+                                    selectionMode:"single",
+                                    gridClick:function() {
+                                        console.log("CLIKED");
+                                    },
+//                                    itemClick:function() {
+//                                        console.log("CLIKED itemclick");
+//                                    },
+                                    matrixViewProps:{expandDuration:0},
+                                    style: "position:relative;width:600px;height:600px"
+                                }, "someId");
+
+                                calendar.on("itemClick", function(e){
+                                    console.log("Item clicked", e.item.summary);
+                                });
+
+//                                var picker = new Pikaday({field: document.getElementById('datepicker')});
+                            }
+
+                    )});
+    </script>
+</head>
+<body  class="claro">
+<div id="someId" style="position:relative"></div>
+<input type="text" id="datepicker">
+</body>
+</html>

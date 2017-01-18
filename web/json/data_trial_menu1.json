@@ -1,0 +1,10 @@
+{
+  "menu":[
+    {"itemName":"menuNew", "itemCaption":"New", "action":""},
+    {"itemName":"menuOpen", "itemCaption":"Open", "action":""},
+    {"itemName":"menuClose", "itemCaption":"Close", "action":""},
+    {"itemName":"menuOptions", "itemCaption":"Options", "action":""},
+    {"itemName":"menuHelp", "itemCaption":"Help", "action":""},
+    {"itemName":"menuExit", "itemCaption":"Exit", "action":"exit"}
+  ]
+}

@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+</head>
+<body>
+<!--<form enctype="multipart/form-data" method="post">-->
+    <!--<p><input type="file" name="f">-->
+        <!--<input type="submit" value="Отправить"></p>-->
+    <!--<p><input type="file" name="f">-->
+        <!--<input type="submit" value="Отправить"></p>-->
+    <!--<p><input type="file" name="f">-->
+        <!--<input type="submit" value="Отправить"></p>-->
+    <!--<p><input type="file" name="f">-->
+        <!--<input type="submit" value="Отправить"></p>-->
+<!--</form>-->
+
+
+
+<!--<form id="file_upload_form" method="post" enctype="multipart/form-data" action="upload.php">-->
+    <!--<input name="file" id="file" size="27" type="file" /><br />-->
+    <!--<input type="submit" name="action" value="Upload" /><br />-->
+    <!--<iframe id="upload_target" name="upload_target" src="" style="width:0;height:0;border:0px solid #fff;"></iframe>-->
+<!--</form>-->
+<!--<script>-->
+    <!--function init() {-->
+        <!--document.getElementById('file_upload_form').onsubmit=function() {-->
+            <!--document.getElementById('file_upload_form').target = 'upload_target'; //'upload_target' is the name of the iframe-->
+        <!--}-->
+    <!--}-->
+    <!--window.onload=init-->
+<!--</script>-->
+
+<!--<?php-->
+<!--include('../../../common.php');-->
+<!--upload('file','.','txt,jpg,jpeg,gif,png');-->
+<!--&>-->
+
+<!--<form id="file-form" action="handler.php" method="POST">-->
+    <!--<input type="file" id="file-select" name="photos[]" multiple/>-->
+    <!--<button type="submit" id="upload-button">Upload</button>-->
+<!--</form>-->
+
+<!--</body>-->
+<!--<script>-->
+    <!--var form = document.getElementById('file-form');-->
+    <!--var fileSelect = document.getElementById('file-select');-->
+    <!--var uploadButton = document.getElementById('upload-button');-->
+
+    <!--form.onsubmit = function(event) {-->
+        <!--event.preventDefault();-->
+
+        <!--// Update button text.-->
+        <!--uploadButton.innerHTML = 'Uploading...';-->
+
+        <!--// The rest of the code will go here...-->
+
+        <!--// Get the selected files from the input.-->
+        <!--var files = fileSelect.files;-->
+
+        <!--// Create a new FormData object.-->
+        <!--var formData = new FormData();-->
+
+        <!--for (var i = 0; i < files.length; i++) {-->
+            <!--var file = files[i];-->
+
+            <!--// Check the file type.-->
+            <!--if (!file.type.match('image.*')) {-->
+                <!--continue;-->
+            <!--}-->
+
+            <!--// Add the file to the request.-->
+            <!--formData.append('photos[]', file, file.name);-->
+
+            <!--// Files-->
+            <!--formData.append(name, file, filename);-->
+        <!--}-->
+
+<!--//// Blobs-->
+<!--//            formData.append(name, blob, filename);-->
+<!--//-->
+<!--//// Strings-->
+<!--//            formData.append(name, value);-->
+
+            <!--// Set up the request.-->
+            <!--var xhr = new XMLHttpRequest();-->
+
+            <!--// Open the connection.-->
+            <!--xhr.open('POST', 'handler.php', true);-->
+        <!--// Send the Data.-->
+        <!--xhr.send(formData);-->
+
+    <!--}-->
+
+<!--</script>-->
+</body>
+<form id="upload_form" enctype="multipart/form-data" method="post">
+    <input type="file" name="file1" id="file1">
+
+    <div id="progress">
+    <progress id="progressBar" value="0" max="100" style="width: 300px;"></progress>
+        </div>
+    <input type="button" value="Upload File" onclick="uploadFile()">
+</form>
+<script>
+    function _(el){
+        return document.getElementById(el);
+    }
+    function uploadFile(){
+        var file =  _("file1").files[0];
+        var formData = new FormData();
+        formData.append("file1", file);
+        var ajax = new XMLHttpRequest();
+
+        ajax.upload.addEventListener("progress",progressHandler, false);
+        ajax.addEventListener("load",completeHandler, false);
+        ajax.addEventListener("error",errorHandler, false);
+        ajax.addEventListener("abort",abortHandler, false);
+//        ajax.open("POST", "file_upload_parser.php");
+        ajax.open("POST", "/?action=load_file");
+        ajax.send(formData);
+    }
+    function progressHandler(event){
+        var percent = (event.loaded/event.total)*100;
+        _("progressBar").value=Math.round(percent);
+    }
+
+    function completeHandler(event){
+        _("progressBar").parentNode.removeChild( _("progressBar"));
+        _("progress").innerHTML="Файл загружен";
+    }
+    function errorHandler(event){
+        _("progressBar").value=0;
+    }
+    function abortHandler(event){
+        _("progressBar").value=0;
+    }
+
+
+</script>
+
+</html>

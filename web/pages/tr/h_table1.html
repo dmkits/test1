@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link href="/jslib/handsontable.full.min.css" rel="stylesheet" media="screen">
+    <script src="/jslib/handsontable.full.min.js"></script>
+    <script src="/jslib/myutils.js"></script>
+</head>
+<body>
+<div id="example"></div>
+</body>
+<script Language="JavaScript">
+
+    var table_data = loadDataFromServer('/json/data1.json');
+
+    var columns = table_data.columns;
+
+    var objectData = table_data.data;
+
+    var columnsHeaders = [];
+
+    for (var i = 0; i < table_data.columns.length; i++) {
+        columnsHeaders[i] = table_data.columns[i].name;
+    }
+
+    var container = document.getElementById('example');
+    var hot = new Handsontable(container, {
+        columns: columns,
+        colHeaders: columnsHeaders,
+        data: objectData,
+
+        headerTooltips: {
+            rows: false,
+            columns: true,
+            onlyTrimmed: true,
+            dropdownMenu: true
+        }
+    });
+
+</script>
+</html>

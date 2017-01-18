@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no"/>
+    <!--<meta name="apple-mobile-web-app-capable" content="yes"/>-->
+
+    <link href="/jslib/dojox/mobile/themes/iphone/iphone.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="/jslib/dojox/widget/Calendar/Calendar.css">
+    <link rel="stylesheet" href="/jslib/dojox/calendar/themes/claro/Calendar.css">
+    <link href="/jslib/dijit/themes/claro/claro.css" rel="stylesheet" type="text/css">
+    <script type="text/javascript" src="/jslib/dojox/mobile/deviceTheme.js"></script>
+    <script src="/jslib/moment-with-locales.js"></script>
+    <script src="/jslib/dojo/dojo.js" data-dojo-config="parseOnLoad: true"></script>
+    <!--<script src="/jslib/dijit/dijit.js"></script>-->
+    <style>
+        . claro  table.dijitCalendarContainer {
+                         margin: 25px auto;
+                     }
+        #formatted {
+            text-align: center;
+        }
+    </style>
+    <title></title>
+</head>
+<body class="claro">
+<div id="textTooltip" data-dojo-type="dojox/mobile/Tooltip" class="mblTooltipBubble">
+    <div data-dojo-type="dijit/CalendarLite">
+        <script type="dojo/method" data-dojo-event="onChange" data-dojo-args="value">
+        require(["dojo/dom", "dojo/date/locale"], function(dom, locale){
+        });
+    </script>
+    </div>
+</div>
+<button type="button" onclick="dijit.registry.byId('textTooltip').show(this, ['after','below-centered','above-centered'])">right</button>
+<!--<p id="formatted"></p>-->
+
+</body>
+</html>

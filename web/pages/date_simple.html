@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="ru">
+<meta charset="utf-8">
+<head>
+    <!--<script src="web/jslib/moment-with-locales.js"></script>-->
+    <script Language="JavaScript">
+
+        now = new Date();
+
+             var q_beginning= function() {
+
+                 var cur_month = now.getMonth();
+
+                 if (cur_month>=0 && cur_month <=2)
+                     return f_quarter = new Date(now.getYear()+1900, 0, 1);
+                 if(cur_month>=3 && cur_month <=5)
+                     return  f_quarter = new Date(now.getYear()+1900, 3, 1);
+                 if(cur_month>=6 && cur_month <=8)
+                     return f_quarter = new Date(now.getYear()+1900, 6, 1);
+                 if (cur_month>=9 && cur_month <=11)
+                     return f_quarter=new Date(now.getYear()+1900,9,1);
+             }
+
+             var q_end= function() {
+
+                 var cur_month = now.getMonth();
+
+                 if (cur_month >= 0 && cur_month <= 2)
+                     return l_quarter = new Date(now.getYear()+1900, 3, 0);
+                 if (cur_month >= 3 && cur_month <= 5)
+                     return l_quarter = new Date(now.getYear()+1900, 6, 0);
+                 if (cur_month >= 6 && cur_month <= 8)
+                     return l_quarter = new Date(now.getYear()+1900, 9, 0);
+                 if (cur_month >= 9 && cur_month <= 11)
+                     return l_quarter=new Date(now.getYear()+1900+1,0,0);
+             }
+
+             var clock= function () {
+
+                 document.clock.time.value = now.getHours()+":"+now.getMinutes()+":"+now.getSeconds();
+
+                    var Timer = setTimeout("clock() ", 1000);
+
+                 document.clock.date.value=now.toDateString();
+
+                  var first = new Date(now.getYear()+1900, now.getMonth(), 1);
+                 document.clock.first_day.value = first.toDateString();
+
+                 var lastDay = new Date(now.getYear(), now.getMonth()+1, 0)
+                 document.clock.last_day.value = lastDay.toDateString();
+
+
+                 document.clock.f_quarter.value = q_beginning().toDateString();
+                 document.clock.l_quarter.value = q_end().toDateString();
+             }
+
+    </script>
+</head>
+<body onLoad="clock()">
+<form name="clock">
+    Время:
+    <input type="text" name="time" size="8" value=""><br>
+    Дата:
+    <input type="text" name="date" size="15" value=""><br>
+    <br>
+
+    Начало текущего месяца:
+    <input type="text" name="first_day" size="15" value=""><br>
+    Конец текущего месяца:
+    <input type="text" name="last_day" size="15" value=""><br>
+    <br>
+
+    Начало текущего квартала:
+    <input type="text" name="f_quarter" size="15" value=""><br>
+    Конец текущего квартала:
+    <input type="text" name="l_quarter" size="15" value=""><br>
+
+
+</form>
+</body>
+
+</html>

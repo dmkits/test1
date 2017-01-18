@@ -1,0 +1,55 @@
+{
+  "columns":[
+{"data":"month","name":"Month"},{"data":"sum", "name":"Sum"}
+],
+  "data":[
+  {
+    "month": "Jan",
+    "sum": 1000
+  },
+  {
+    "month": "Feb",
+    "sum": 1500
+  },
+  {
+    "month": "Mar",
+    "sum": 2000
+  },
+  {
+    "month": "April",
+    "sum": 2250
+  },
+  {
+    "month": "May",
+    "sum": 1200
+  },
+  {
+    "month": "June",
+    "sum": 1700
+  },
+  {
+    "month": "July",
+    "sum": 2300
+  },
+  {
+    "month": "Aug",
+    "sum": 1100
+  },
+  {
+    "month": "Sep",
+    "sum": 2800
+  },
+  {
+    "month": "Oct",
+    "sum": 2700
+  },
+  {
+    "month": "Nov",
+    "sum": 2300
+  },
+  {
+    "month": "Dec",
+    "sum": 2500
+  }
+    ]
+}
