@@ -125,7 +125,7 @@ public class ExcelRead  {
                 HashMap <String,Object> rowData = new HashMap<String,Object> ();
                 for (int j = 0; j < columnNumbersList.size(); j++) {
                     int columnNum=columnNumbersList.get(j);
-                    String key= sheet.getCell(columnNum, 0).getContents().trim();
+                    String key= sheet.getCell(columnNum, 0).getContents();
                     cell = sheet.getCell(columnNum, i);
                     rowData.put(key, getExcelCellValue(cell));
                 }

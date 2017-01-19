@@ -14,7 +14,7 @@ public class UploadServlet extends HttpServlet
     private static final int LF = (int)'\n';
 
     private static final String DATA_LIST = "Dati";
-    private static final String[] DATA_COLUMNS = new String[]{"Gender","Item No.","CEE No.","Description"};
+    private static final String[] DATA_COLUMNS = new String[]{"Gender","Cat.","Sub.","Item No.","Q.ty", "Gross Price by unit", "Net Amount"};
 
     public void init(ServletConfig config) throws ServletException
     {
