@@ -13,6 +13,8 @@ public class UploadServlet extends HttpServlet
     private static final int CR = (int)'\r';
     private static final int LF = (int)'\n';
 
+    private static final String DATA_LIST = "Dati";
+    private static final String[] DATA_COLUMNS = new String[]{"Gender","Item No.","CEE No.","Description"};
 
     public void init(ServletConfig config) throws ServletException
     {
@@ -44,28 +46,32 @@ public class UploadServlet extends HttpServlet
 
         ExcelRead test = new ExcelRead();
         test.setInputFile("/home/ianagez/myfile.xls");
-        String res = null;
+        HashMap<String, Object> outData=test.createHashData(DATA_LIST,DATA_COLUMNS);
+        //String res = null;
         try {
-            res = test.read();
-        } catch (IOException e) {
+            outData =test.createHashData(DATA_LIST, DATA_COLUMNS);
+           // res = test.createHashData();
+        } catch (Exception e) {
             e.printStackTrace();
         }
         //test.read();
+//        ArrayList<HashMap<String,Object>> columns= new ArrayList<>();
+//        ArrayList<HashMap<String,Object>> data= new ArrayList<>();
+//
+//        HashMap outData= new HashMap();
+//        outData.put("columns",columns);
+//        outData.put("data",data);
 
-        ArrayList<HashMap<String,Object>> columns= new ArrayList<>();
-        ArrayList<HashMap<String,Object>> data= new ArrayList<>();
-
-        HashMap outData= new HashMap();
-        outData.put("columns",columns);
-        outData.put("data",data);
-
+       // Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZZZ").create();
+       // String json = gson.toJson(outData);
+        String json = (new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZZZ").create()).toJson(outData);
 
         PrintWriter out = response.getWriter();
         out.println("<html>");
         out.println("<body>");
-        out.println(res);
+        out.println(json);
 
-        String json = (new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZZZ").create()).toJson(outData);
+
         out.println("</body>");
         out.println("</html>");
 
