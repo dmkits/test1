@@ -136,7 +136,34 @@
         _("progressBar").value=0;
     }
 
+    console.log("undefined==null", undefined==null);
+    console.log("undefined===null", undefined===null);
+    console.log("undefined==0", undefined==0);
+    console.log("undefined===0", undefined===0);
+    console.log("0==null", 0==null);
+    console.log("0===null", 0===null);
+    console.log("null_str==null", "null"==null);
+    console.log("null_str===null", "null"===null);
+    console.log("undefined_str==undefined", "undefined"==undefined);
+    console.log("undefined_str===undefined", "undefined"===undefined);
+    console.log("1=='1'",1=='1');
+    console.log("1==='1'",1==='1');
 
+    var i1=0;
+    console.log("i1=",i1," i1==0",i1==0);
+    i1=null;
+    console.log("i1=",i1," i1==0",i1==0);
+
+    var i2=0;
+
+    console.log("i2=",i2," i2==null",i2==null,i2==undefined);
+    console.log("i1=",i1," i2=",i2," i1==i2",i1==i2,i1===i2);
+    i1=undefined;
+    console.log("i1=",i1," i2=",i2," i1==i2",i1==i2,i1===i2);
+    var s1="";
+    console.log("s1=",s1," i2=",i2," s1==i2",s1==i2,s1===i2);
+    console.log("s1=",s1," s1==null",s1==null,s1===null);
+    console.log("s1=",s1," s1==undefined",s1==undefined,s1===undefined);
 </script>
 
 </html>
