@@ -1,3 +1,5 @@
+package controllers;
+
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -79,8 +81,8 @@ public class UploadServlet extends HttpServlet
         // HTML форма отправляемая методом post
         response.setContentType(CONTENT_TYPE);
 
-//        RequestDispatcher view = request.getRequestDispatcher("/pages/upload_servlet_post.html");
-//        view.forward(request, response);
+        RequestDispatcher view = request.getRequestDispatcher("/pages/upload_servlet_post.html");
+        view.forward(request, response);
     }
     private int[] extractData(HttpServletRequest request) throws IOException {
         // Содержимое пришедших байтов их запроса (содержимое приходящего файла)

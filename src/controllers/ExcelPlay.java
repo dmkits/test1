@@ -1,4 +1,4 @@
-
+package controllers;
 /**
  * Created by ianagez on 17.01.17.
  */
@@ -126,7 +126,7 @@ public class ExcelPlay {
     }
 
 //    public static void main(String[] args) throws WriteException, IOException {
-//        ExcelPlay test = new ExcelPlay();
+//        controllers.ExcelPlay test = new controllers.ExcelPlay();
 //       // test.setOutputFile("c:/temp/lars.xls");
 //         test.setOutputFile("/home/ianagez/lars.xls");
 //        test.write();

@@ -51,11 +51,11 @@
 
     <servlet>
         <servlet-name>UploadServlet</servlet-name>
-        <servlet-class>UploadServlet</servlet-class>
+        <servlet-class>controllers.UploadServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>UploadServlet</servlet-name>
-        <url-pattern>/UploadServlet</url-pattern>
+        <url-pattern>/pages/UploadServlet</url-pattern>
     </servlet-mapping>
 
     <welcome-file-list>
