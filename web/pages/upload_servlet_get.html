@@ -2,12 +2,32 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>controllers.UploadServlet</title>
+    <!--<title>controllers.UploadServlet</title>-->
 </head>
 <body>
-<form action="UploadServlet" method="post" enctype="multipart/form-data">
+<!--<form enctype="multipart/form-data">-->
+    <form action="UploadServlet" method="post" enctype="multipart/form-data">
+
     <input type=file name=ufile accept=".xls, .xlsx">
-    <input type=submit value="Attach">
+    <input type=submit value="Attach and view" id="view_file">
+  <!--<input type=submit value="Attach and save" id="save_file">&ndash;&gt;-->
     </form>
+
 </body>
+<script type="text/javascript">
+    document.getElementById("view_file").onclick=function(){
+        var xhr = new XMLHttpRequest();
+
+        var body="lkjhn";
+        var params = 'file_action=' + "view_file";
+        xhr.enctype="multipart/form-data";
+
+        xhr.open("POST", '/UploadServlet?' + params, true);
+
+      //  xhr.onreadystatechange = ...;
+
+        xhr.send(body);
+    }
+
+</script>
 </html>

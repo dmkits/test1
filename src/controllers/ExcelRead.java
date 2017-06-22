@@ -100,13 +100,16 @@ public class ExcelRead  {
 //        }
 //        return outData;
 
-            Sheet sheet=null;
-            for (int i = 0; i < w.getSheets().length; i++) {
-                if (w.getSheet(i).getName().equalsIgnoreCase(sheetTitle)){
-                    sheet=w.getSheet(i);
-                    break;
-                }
+            Sheet sheet=w.getSheet(0);
+            if(sheet==null){
+                return  outData;
             }
+//            for (int i = 0; i < w.getSheets().length; i++) {
+//                if (w.getSheet(i).getName().equalsIgnoreCase(sheetTitle)){
+//                    sheet=w.getSheet(i);
+//                    break;
+//                }
+//            }
             Cell cell;
             ArrayList<Integer> columnNumbersList=new ArrayList<>();
             for (int j = 0; j < sheet.getColumns()-1; j++){
