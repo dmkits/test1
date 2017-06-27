@@ -58,6 +58,15 @@
         <url-pattern>/pages/UploadServlet</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>LoadXLSServlet</servlet-name>
+        <servlet-class>controllers.LoadXLSServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>LoadXLSServlet</servlet-name>
+        <url-pattern>/pages/LoadXLSServlet</url-pattern>
+    </servlet-mapping>
+
     <welcome-file-list>
         <welcome-file>main.html</welcome-file>
     </welcome-file-list>

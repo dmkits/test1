@@ -24,6 +24,9 @@
       </library>
     </orderEntry>
     <orderEntry type="library" name="lib_selenide" level="project" />
-    <orderEntry type="library" name="poi_apache" level="project" />
+    <orderEntry type="library" name="poi-ooxml-3.16" level="project" />
+    <orderEntry type="library" name="poi-3.16" level="project" />
+    <orderEntry type="library" name="poi-ooxml-schemas-3.16" level="project" />
+    <orderEntry type="library" name="jxl" level="project" />
   </component>
 </module>

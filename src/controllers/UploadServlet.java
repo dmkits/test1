@@ -31,8 +31,6 @@ public class UploadServlet extends HttpServlet
     public void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException
     {
-
-
        response.setContentType(CONTENT_TYPE);
         RequestDispatcher view = request.getRequestDispatcher("/pages/upload_servlet_get.html");
         view.forward(request, response);
@@ -40,14 +38,14 @@ public class UploadServlet extends HttpServlet
     @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-//Поток, в который будет писаться содержимое (в принципе может быть любой OutputStream)
+      //  System.out.println("request="+request);
 
+       //Поток, в который будет писаться содержимое (в принципе может быть любой OutputStream)
        // System.out.println("request="+request.toString());
 
         FileOutputStream fos = null;
         try {
             fos = new FileOutputStream("/home/ianagez/myfile.xls");
-          //  fos = new FileOutputStream("./my_files/myfile.xls");
 
             int[] dataSlice = extractData(request);
             int i;
@@ -93,6 +91,8 @@ public class UploadServlet extends HttpServlet
         out.println("</html>");
 
 
+
+
         // HTML форма отправляемая методом post
         response.setContentType(CONTENT_TYPE);
 
@@ -134,7 +134,6 @@ public class UploadServlet extends HttpServlet
                 break;
             }
         }
-
         int[] dataSlice = new int[endSliceIndex-beginSliceIndex+1];
         for(i = beginSliceIndex; i<=endSliceIndex; i++) {
             dataSlice[i-beginSliceIndex]=data[i];
