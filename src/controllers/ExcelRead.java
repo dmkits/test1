@@ -4,19 +4,19 @@ package controllers; /**
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import com.sun.corba.se.spi.ior.Writeable;
 import jxl.*;
 import jxl.read.biff.BiffException;
+import jxl.write.WritableWorkbook;
 
 public class ExcelRead  {
 
-    private String inputFile;
-
-    public void setInputFile(String inputFile) {
-        this.inputFile = inputFile;
-    }
+    private OutputStream outputStream;
 
 //    public String read() throws IOException  {
 //        StringBuilder s = new StringBuilder();
@@ -60,7 +60,7 @@ public class ExcelRead  {
 //    }
 
 
-    public HashMap createHashData(String sheetTitle, String[] columnsTitle) throws IOException  {
+    public static HashMap getHashData(InputStream is, String sheetTitle, String[] columnsTitle) throws IOException  {
 
         ArrayList<HashMap<String,Object>> columns= new ArrayList<>();
         ArrayList<HashMap<String,Object>> data= new ArrayList<>();
@@ -69,10 +69,10 @@ public class ExcelRead  {
         outData.put("columns",columns);
         outData.put("data",data);
 
-        File inputWorkbook = new File(inputFile);
         Workbook w;
         try {
-            w = Workbook.getWorkbook(inputWorkbook);
+            w = Workbook.getWorkbook(is);
+//            w = Workbook.createWorkbook(os, Workbook.getWorkbook(is));
             // Get the first sheet
            // Sheet sheet = w.getSheet(3);
             // Loop over first 10 column and lines
@@ -138,12 +138,12 @@ public class ExcelRead  {
                     };
                 }
             }
-        } catch (BiffException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return outData;
     }
-    private Object getExcelCellValue(Cell cell){
+    private static Object getExcelCellValue(Cell cell){
         CellType type = cell.getType();
         if (type == CellType.LABEL) {
             return cell.getContents().trim();

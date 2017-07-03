@@ -42,60 +42,28 @@ public class UploadServlet extends HttpServlet
 
        //Поток, в который будет писаться содержимое (в принципе может быть любой OutputStream)
        // System.out.println("request="+request.toString());
-
-        FileOutputStream fos = null;
+        byte[] dataSlice = extractData(request);
+        HashMap<String, Object> outData;
         try {
-            fos = new FileOutputStream("/home/ianagez/myfile.xls");
+            InputStream is = new ByteArrayInputStream(dataSlice);
 
-            int[] dataSlice = extractData(request);
-            int i;
-            for(i=0;i<dataSlice.length; i++ ) fos.write(dataSlice[i]);
-            fos.flush();
-            fos.close();
+//            int i;
+//            for(i=0;i<dataSlice.length; i++ ) is.write(dataSlice[i]);
+//            is.flush();
+//            os.close();
+            outData =ExcelRead.getHashData(is, DATA_LIST, DATA_COLUMNS);
+            String json = (new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZZZ").create()).toJson(outData);
+            PrintWriter out = response.getWriter();
+            out.println("<html>");
+            out.println("<body>");
+            out.println(json);
+            out.println("</body>");
+            out.println("</html>");
         } catch (Exception e) {
             request.getRequestDispatcher("/pages/upload_xls_parse_error.html").forward(request, response);
         }
-
-        ExcelRead test = new ExcelRead();
-        test.setInputFile("/home/ianagez/myfile.xls");
-      //  test.setInputFile("./my_files/myfile.xls");
-        HashMap<String, Object> outData; //=test.createHashData(DATA_LIST,DATA_COLUMNS);
-        //String res = null;
-        try {
-            outData =test.createHashData(DATA_LIST, DATA_COLUMNS);
-           // res = test.createHashData();
-        } catch (Exception e) {
-            outData= new HashMap<>();
-            e.printStackTrace();
-        }
-        //test.read();
-//        ArrayList<HashMap<String,Object>> columns= new ArrayList<>();
-//        ArrayList<HashMap<String,Object>> data= new ArrayList<>();
-//
-//        HashMap outData= new HashMap();
-//        outData.put("columns",columns);
-//        outData.put("data",data);
-
-       // Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZZZ").create();
-       // String json = gson.toJson(outData);
-
-        String json = (new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZZZ").create()).toJson(outData);
-
-        PrintWriter out = response.getWriter();
-        out.println("<html>");
-        out.println("<body>");
-        out.println(json);
-
-
-        out.println("</body>");
-        out.println("</html>");
-
-
-
-
         // HTML форма отправляемая методом post
         response.setContentType(CONTENT_TYPE);
-
 //        response.setHeader("Content-Disposition",
 //                "attachment; filename=sampleName.xls");
 //
@@ -106,11 +74,10 @@ public class UploadServlet extends HttpServlet
 //        w.write();
        // w.close();
 
-
         //RequestDispatcher view = request.getRequestDispatcher("/pages/upload_servlet_post.html");
         //view.forward(request, response);
     }
-    private int[] extractData(HttpServletRequest request) throws IOException {
+    private byte[] extractData(HttpServletRequest request) throws IOException {
         // Содержимое пришедших байтов их запроса (содержимое приходящего файла)
         InputStream is = request.getInputStream();
         int[] data = new int[request.getContentLength()];
@@ -134,9 +101,9 @@ public class UploadServlet extends HttpServlet
                 break;
             }
         }
-        int[] dataSlice = new int[endSliceIndex-beginSliceIndex+1];
+        byte[] dataSlice = new byte[endSliceIndex-beginSliceIndex+1];
         for(i = beginSliceIndex; i<=endSliceIndex; i++) {
-            dataSlice[i-beginSliceIndex]=data[i];
+            dataSlice[i-beginSliceIndex]=(byte)data[i];
         }
         return dataSlice;
     }
