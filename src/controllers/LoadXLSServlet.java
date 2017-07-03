@@ -27,7 +27,8 @@ public class LoadXLSServlet extends HttpServlet {
             System.out.println("Error"+e );
         }
 
-        WritableWorkbook  wrtWorkbook = Workbook.createWorkbook(new File("myfileJXLWRT.xls"),wb);
+        ByteArrayOutputStream os=new ByteArrayOutputStream();
+        WritableWorkbook  wrtWorkbook = Workbook.createWorkbook(os,wb);
         wrtWorkbook.write();
 
      //   new SheetSettings(wrtWorkbook.getSheet(0)).setHeaderMargin(15.0);
@@ -41,10 +42,12 @@ public class LoadXLSServlet extends HttpServlet {
         response.setContentType("application / vnd.ms - excel");
         response.setHeader("Content-disposition","inline; filename=myfileJXLWRT.xls");
         ServletOutputStream sos = response.getOutputStream();
-        FileInputStream fio = new FileInputStream("./" + "myfileJXLWRT.xls");
+      //  FileInputStream fio = new FileInputStream("./" + "myfileJXLWRT.xls");
+
+        ByteArrayInputStream instr=new ByteArrayInputStream(os.toByteArray());
 
         int c;
-        while(( c = fio.read()) != -1) {
+        while(( c = instr.read()) != -1) {
             sos.write(c);
         }
         sos.close();
