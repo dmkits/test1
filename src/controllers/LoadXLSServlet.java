@@ -18,11 +18,11 @@ public class LoadXLSServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         byte[] dataSlice = extractData(request);
-        ByteArrayInputStream is= new ByteArrayInputStream(dataSlice);
+        ByteArrayInputStream bis= new ByteArrayInputStream(dataSlice);
         Workbook wb=null;
         try {
-            wb= Workbook.getWorkbook(is);
-            is.close();
+            wb= Workbook.getWorkbook(bis);
+           // is.close();
          //   wb.close();
 
         }catch (Exception e){
@@ -55,12 +55,12 @@ public class LoadXLSServlet extends HttpServlet {
 
         System.out.print("inputStream= ");
         int c;
-        while(( c = inputStream.read()) != -1) {
+        while(( c = bis.read()) != -1) {
+            System.out.print(c);
             sos.write(c);
-         //   System.out.print(c);
         }
         sos.close();
-        inputStream.close();
+        bis.close();
     }
 
     private byte[] extractData(HttpServletRequest request) throws IOException {
