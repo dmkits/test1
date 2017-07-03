@@ -1,19 +1,9 @@
 package controllers;
 
-
+import jxl.Sheet;
 import jxl.Workbook;
-import jxl.format.Colour;
-import jxl.format.UnderlineStyle;
-import jxl.write.Label;
-import jxl.write.Number;
-import jxl.write.WritableCellFormat;
-import jxl.write.WritableFont;
-import jxl.write.WritableSheet;
 import jxl.write.WritableWorkbook;
-import jxl.write.WriteException;
-import jxl.write.biff.RowsExceededException;
-
-
+import jxl.SheetSettings;
 import javax.servlet.ServletException;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServlet;
@@ -21,34 +11,17 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 
-import static jxl.Workbook.createWorkbook;
-
-
 public class LoadXLSServlet extends HttpServlet {
 
     private static final int CR = (int) '\r';
     private static final int LF = (int) '\n';
-
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-
-        FileOutputStream fos = null;
-        try {
-
-            fos = new FileOutputStream("/home/ianagez/myfileJXL.xls");
-            int[] dataSlice = extractData(request);
-            int i;
-            for (i = 0; i < dataSlice.length; i++) fos.write(dataSlice[i]);
-            fos.flush();
-            fos.close();
-        } catch (Exception e) {
-            request.getRequestDispatcher("/pages/upload_xls_parse_error.html").forward(request, response);
-        }
-
-        File f = new File("/home/ianagez/myfileJXL.xls");
+        byte[] dataSlice = extractData(request);
+        ByteArrayInputStream is= new ByteArrayInputStream(dataSlice);
         Workbook wb=null;
         try {
-            wb= Workbook.getWorkbook(f);
+            wb= Workbook.getWorkbook(is);
 
         }catch (Exception e){
             System.out.println("Error"+e );
@@ -56,6 +29,9 @@ public class LoadXLSServlet extends HttpServlet {
 
         WritableWorkbook  wrtWorkbook = Workbook.createWorkbook(new File("myfileJXLWRT.xls"),wb);
         wrtWorkbook.write();
+
+     //   new SheetSettings(wrtWorkbook.getSheet(0)).setHeaderMargin(15.0);
+
         try {
             wrtWorkbook.close();
         }catch (Exception e){
@@ -64,7 +40,6 @@ public class LoadXLSServlet extends HttpServlet {
         response.setHeader("Cache-Control", "max-age=30");
         response.setContentType("application / vnd.ms - excel");
         response.setHeader("Content-disposition","inline; filename=myfileJXLWRT.xls");
-
         ServletOutputStream sos = response.getOutputStream();
         FileInputStream fio = new FileInputStream("./" + "myfileJXLWRT.xls");
 
@@ -75,14 +50,14 @@ public class LoadXLSServlet extends HttpServlet {
         sos.close();
     }
 
-    private int[] extractData(HttpServletRequest request) throws IOException {
+    private byte[] extractData(HttpServletRequest request) throws IOException {
         // Содержимое пришедших байтов их запроса (содержимое приходящего файла)
         InputStream is = request.getInputStream();
         int[] data = new int[request.getContentLength()];
         int bytes;
         int counter = 0;
-        while ((bytes = is.read()) != -1) {
-            data[counter] = bytes;
+        while((bytes=is.read())!=-1) {
+            data[counter]=bytes;
             counter++;
         }
         is.close();
@@ -90,24 +65,24 @@ public class LoadXLSServlet extends HttpServlet {
         int i;
         int beginSliceIndex = 0;
         // Конечный индекс срезки - длина границы + доп. символы.
-        int endSliceIndex = data.length - getBoundary(request).length() - 9;
+        int endSliceIndex = data.length - getBoundary(request).length()-9;
 
-        for (i = 0; i < data.length; i++) {
+        for(i = 0; i < data.length; i++) {
             // Начальный индекс срезки: после того как встретятся 2 раза подряд \r\n
-            if (data[i] == CR && data[i + 1] == LF && data[i + 2] == CR && data[i + 3] == LF) {
-                beginSliceIndex = i + 4;
+            if(data[i] == CR && data[i+1] == LF && data[i+2] == CR && data[i+3] == LF){
+                beginSliceIndex = i+4;
                 break;
             }
         }
-        int[] dataSlice = new int[endSliceIndex - beginSliceIndex + 1];
-        for (i = beginSliceIndex; i <= endSliceIndex; i++) {
-            dataSlice[i - beginSliceIndex] = data[i];
+        byte[] dataSlice = new byte[endSliceIndex-beginSliceIndex+1];
+        for(i = beginSliceIndex; i<=endSliceIndex; i++) {
+            dataSlice[i-beginSliceIndex]=(byte)data[i];
         }
         return dataSlice;
     }
+    // Поиск границы
     private String getBoundary(HttpServletRequest request) {
         String cType = request.getContentType();
-        return cType.substring(cType.indexOf("boundary=") + 9);
+        return cType.substring(cType.indexOf("boundary=")+9);
     }
 }
-
