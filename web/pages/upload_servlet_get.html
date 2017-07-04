@@ -2,28 +2,38 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <!--<title>controllers.UploadServlet</title>-->
 </head>
 <body>
-<!--<form enctype="multipart/form-data">-->
 
-<form action="UploadServlet" method="post" enctype="multipart/form-data">
-    <input type=file name=ufile accept=".xls, .xlsx">
-    <input type=submit value="Attach and view" id="view_file">
-</form>
+<table style="width:373px;border:#B0C4DE solid 1px; ">
+    <tr>
+        <td style="background-color:#B0C4DE; text-align: center">Get JSON data</td>
+    </tr>
+    <tr>
+        <td>
+            <form action="UploadServlet" method="post" enctype="multipart/form-data">
+                <input type=file name=ufile accept=".xls, .xlsx">
+                <input type=submit style="width:115px" value="Attach and view" id="view_file">
+            </form>
+        </td>
+    </tr>
+</table>
 
-<form action="LoadXLSServlet" method="post" enctype="multipart/form-data">
-    <input type=file name=ufile accept=".xls, .xlsx">
-    <input type=submit value="Attach and Save" id="save_file">
-</form>
 
-<!--<form action="LoadXLSServlet" method="get">-->
-
-<!--&lt;!&ndash;<input type=file name=ufile accept=".xls, .xlsx">&ndash;&gt;-->
-<!--<input type=submit value="Load file" id="load_file">-->
-<!--&lt;!&ndash;<input type=submit value="Attach and save" id="save_file">&ndash;&gt;&ndash;&gt;-->
-
-<!--</form>-->
+<table style="width:373px;border:#B0C4DE solid 1px; margin-top: 20px">
+    <tr>
+        <td style="background-color:#B0C4DE; text-align: center">Load and save file</td>
+    </tr>
+    <tr>
+        <td>
+            <form action="LoadXLSServlet" method="post" enctype="multipart/form-data">
+                <input type=file name=ufile accept=".xls, .xlsx">
+                <input type=submit style="width:115px" value="Attach and Save" id="save_file">
+            </form>
+            </form>
+        </td>
+    </tr>
+</table>
 </body>
 <script type="text/javascript">
 
