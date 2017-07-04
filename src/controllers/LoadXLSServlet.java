@@ -2,6 +2,7 @@ package controllers;
 
 import jxl.Sheet;
 import jxl.Workbook;
+import jxl.WorkbookSettings;
 import jxl.write.WritableWorkbook;
 import jxl.SheetSettings;
 import javax.servlet.ServletException;
@@ -22,47 +23,25 @@ public class LoadXLSServlet extends HttpServlet {
         Workbook wb=null;
         try {
             wb= Workbook.getWorkbook(bis);
-           // is.close();
-         //   wb.close();
-
         }catch (Exception e){
             System.out.println("Error"+e );
         }
 
-        ByteArrayOutputStream os= new ByteArrayOutputStream();
-        WritableWorkbook  wrtWorkbook = Workbook.createWorkbook(os,wb);
+        ServletOutputStream sos = response.getOutputStream();
+        WritableWorkbook  wrtWorkbook = Workbook.createWorkbook(sos,wb, new WorkbookSettings());
 
-      try {
-          wrtWorkbook.write();
-      }catch (Exception e){
-          System.out.println(e);
-      }
-
-        try {
-            wrtWorkbook.close();
-        }catch (Exception e){
-            System.out.println(e);
-    }
         response.setHeader("Cache-Control", "max-age=30");
         response.setContentType("application / vnd.ms - excel");
         response.setHeader("Content-disposition","inline; filename=myfileJXLWRT.xls");
-        ServletOutputStream sos = response.getOutputStream();
-        // FileInputStream fio = new FileInputStream("./" + "myfileJXLWRT.xls");
-        os.flush();
-        os.close();
 
-       ByteArrayInputStream inputStream = new ByteArrayInputStream(os.toByteArray());
-
-        System.out.print("inputStream= ");
-        int c;
-        while(( c = bis.read()) != -1) {
-            System.out.print(c);
-            sos.write(c);
+        try {
+            wrtWorkbook.write();
+            wrtWorkbook.close();
+        } catch (Exception e) {
+            System.out.println(e);
         }
         sos.close();
-        bis.close();
     }
-
     private byte[] extractData(HttpServletRequest request) throws IOException {
         // Содержимое пришедших байтов их запроса (содержимое приходящего файла)
         InputStream is = request.getInputStream();
@@ -93,7 +72,6 @@ public class LoadXLSServlet extends HttpServlet {
         }
         return dataSlice;
     }
-    // Поиск границы
     private String getBoundary(HttpServletRequest request) {
         String cType = request.getContentType();
         return cType.substring(cType.indexOf("boundary=")+9);
